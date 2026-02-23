@@ -1,9 +1,8 @@
 import React from "react";
 
-const CounterButton = (props) => {
-    const [validator, loading] = props.props;
+const CounterButton = ({counter, loading}) => {
     return (
-      <button onClick={validator} disabled={loading}>
+      <button onClick={counter} disabled={loading}>
         count
       </button>
     );
