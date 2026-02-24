@@ -1,6 +1,6 @@
 import React from "react";
 
-const CounterButton = ({counter, loading}) => {
+const CounterButton = ({ counter, loading }) => {
     return (
       <button onClick={counter} disabled={loading}>
         count
