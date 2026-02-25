@@ -1,16 +1,19 @@
 import React from "react";
 
 const msgMap = {
-  loadMsg: "...loading",
-  emptyMsg: "counter value is empty"
+  401: "...loading",
+  402: "counter value is empty",
+  403: "internal Server Error, try again."
 
 };
-const UIShow = ({ loading, count }) => {
+const UIShow = ({errorCode, count }) => {
   function uiMsger() {
-    if (loading) {
-      return msgMap.loadMsg;
-    } else if (count < 1) { return msgMap.emptyMsg } else if (count > 0) {
-      return count;
+    if (errorCode==401) {
+      return msgMap[401];
+    } else if (errorCode) {
+      return msgMap[errorCode];
+    } else {
+      return count>0?count:msgMap[402];
     }
    } 
     return (
