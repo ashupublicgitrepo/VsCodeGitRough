@@ -1,9 +1,9 @@
 import React from "react";
 
-const SaveButton = ({errorCode, serverSaver}) => {
+const SaveButton = ({serverSaver, disable}) => {
     return (
         <>
-        <button disabled={errorCode==401?true:false} onClick={serverSaver} >save</button>
+        <button disabled={disable=="saver"} onClick={serverSaver} >save</button>
         </>
     )
 }

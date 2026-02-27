@@ -1,8 +1,8 @@
 import React from "react";
 
-const CounterButton = ({ counter, errorCode }) => {
+const CounterButton = ({disable, counter }) => {
     return (
-      <button onClick={counter} disabled={errorCode==401?true:false}>
+      <button onClick={counter} disabled={disable==="counter"}>
         count
       </button>
     );
