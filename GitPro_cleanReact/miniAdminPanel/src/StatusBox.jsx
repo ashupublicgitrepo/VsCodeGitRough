@@ -1,10 +1,11 @@
 import React from "react";
 const errorMap = {
-    401: "...loading",
-    402: "internal server error, please try again",
-    403: "uploaded to server.",
-    404: "click on save to upload on server.",
-    405: "count value is empty, please set first."
+_uploadEmpty:"count value is empty, please set first.",
+_uploadSuccess:"uploaded to server.",
+_uploadFailed:"internal server error, please try again",
+_loadMsg:"...loading",
+_uploadReady:"click on save to upload on server.",
+_countUpdateFailed:"internal server error, please try again."
 }
 
 const StatusBox = ({ errorCode }) => {

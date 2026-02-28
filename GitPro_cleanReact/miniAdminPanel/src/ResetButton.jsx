@@ -1,8 +1,8 @@
 import React from "react";
 
-const ResetButton = ({disable, reset}) => {
+const ResetButton = ({reset}) => {
     return (
-        <button disabled={disable=="resetter"} onClick={reset}>reset</button>
+        <button  onClick={reset}>reset</button>
     );
 }
 export default ResetButton;

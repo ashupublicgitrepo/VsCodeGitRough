@@ -7,10 +7,12 @@ import StatusBox from "./StatusBox";
 let promisRes = 0;
 const App = () => {
   const [count, setCount] = useState(0);
-  const [errorCode, setErrorCode] = useState(0);
-  const [action, setAction] = useState("");
-  const isLoading = errorCode === 401;
-  // day 29, problem statement - here is observe a pressure point, if i click on counter, it disables counter button and ui box, but it is also disabling whole ui, yes i can make like this, that when counter loading is running, no other button respond but disabling them is not an option, it cost extra rendering.
+  const [state, setState] = useState({
+    phase: "idle",
+    action: null,
+    msgOnUI: null
+  });
+  // day 30, 
   function uploader() {
     return new Promise((res, rej) => {
         setTimeout(() => {
@@ -22,22 +24,25 @@ const App = () => {
           promisRes++;
         }, 1000);
       });
-    
+  }
+  function stateUpdater(newState) {
+    setState(pr => ({
+      ...pr,
+      ...newState,
+    }));
   }
   async function serverSaver() {
-    if (isLoading) return false;
-    if (count === 0) return setErrorCode(405);
-    setErrorCode(401);
-    setAction("saver");
+    if (state.phase==="_loading") return false;
+    if (count === 0) return stateUpdater({ msgOnUI: "_uploadEmpty" });
+    stateUpdater({ phase: "_loading", action: "_saver", msgOnUI: "_loadMsg" });
       try {
         await saver();
-        setErrorCode(403);
+        stateUpdater({ msgOnUI:"_uploadSuccess" });
       }
       catch (err) {
-        setErrorCode(402);
-      }finally {
-        setAction("");
-// of course we dont have a track state yet, which tracks previous value and current value, and return an error which says, already uploaded please change value, but that is for another day.
+        stateUpdater({ msgOnUI:"_uploadFailed" });
+      } finally {
+        stateUpdater({ phase: "_idle", action: null });
       }
   }
   function saver() {
@@ -54,46 +59,46 @@ const App = () => {
     })
   }
    function resetter() {
-    if (isLoading) return false;
-    setAction("resetter");
+     if (state.phase === "_loading") return false;
      setCount(0);
-     setErrorCode(0);
-        setAction("");
-  }
-    async function counter() {
-        if (isLoading) return false;
-        setErrorCode(401);
-        setAction("counter");
-      try {
-        await uploader();
-        setCount(pr => pr + 1);
-        setErrorCode(404);
-      }
-      catch (err) {
-        setErrorCode(402);
-      } finally {
-        setAction("");
-  
-      }
+     stateUpdater({ msgOnUI: null });
+         }
+  async function counter() {
+    if (state.phase === "_loading") return false;
+    if (count === 0) stateUpdater({ msgOnUI: "_emptyValue" });
+    stateUpdater({
+      phase: "_loading",
+      action: "_counter",
+      msgOnUI: "_loadMsg",
+    });
+    try {
+      await uploader();
+      setCount((pr) => pr + 1);
+      stateUpdater({
+        msgOnUI: "_uploadReady",
+      });
+    } catch (err) {
+      stateUpdater({ msgOnUI: "_countUpdateFailed" });
+    }
+    finally {
+      stateUpdater({ phase: "_idle", action: null });
+    }
     }
     return (
       <>
-        {/* day 29, there is no relationship between error code and buttons, button can work without seening error code, they just only need to know, what should happen when click, how do they should look like when clicked, and how do should they look like or work like, when other buttons clicked.other then that, button has no need to know further information. */}
         <UIShow count={count} />
         <CounterButton
-           disable={action}
+           disable={state.action}
           counter={counter}
              />
         <ResetButton
-           disable={action}
           reset={resetter}
              />
         <SaveButton
-          disable={action}
+          disable={state.action}
                serverSaver={serverSaver}
         />
-        {/* day29, so button needs to know what happen when clicked, and what happen after click, no need to know is loading is true or not, not for ui of button but for back logic, which tracks loading as make button responsive or not. */}
-        <StatusBox errorCode={errorCode} />
+        <StatusBox errorCode={state.msgOnUI} />
       </>
     );        
 };

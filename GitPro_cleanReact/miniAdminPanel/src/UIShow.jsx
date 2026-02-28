@@ -1,10 +1,12 @@
 import React from "react";
-
+const countMsg = {
+  _emptyValue: "count value is empty. click count button to set.",
+};
 const UIShow = ({count}) => {
  
   return (
     <>
-      <p>{count?count:"count value is empty."}</p>
+      <p>{count?count:countMsg._emptyValue}</p>
     </>
   );
 }   

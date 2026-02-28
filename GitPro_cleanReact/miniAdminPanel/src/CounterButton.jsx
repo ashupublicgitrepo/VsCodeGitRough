@@ -2,7 +2,7 @@ import React from "react";
 
 const CounterButton = ({disable, counter }) => {
     return (
-      <button onClick={counter} disabled={disable==="counter"}>
+      <button onClick={counter} disabled={disable ==="_counter"}>
         count
       </button>
     );
