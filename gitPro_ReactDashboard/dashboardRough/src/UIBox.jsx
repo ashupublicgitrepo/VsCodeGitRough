@@ -7,6 +7,7 @@ const UIBox = ({ task }) => {
                 <thead>
                     <tr>
                         <th>sr.no.</th>
+                        <th>title</th>
                         <th>status</th>
                         <th>action</th>
                     </tr>

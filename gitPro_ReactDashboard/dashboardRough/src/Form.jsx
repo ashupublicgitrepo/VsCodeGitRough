@@ -4,7 +4,7 @@ const Form = ({ taskAdder, data, dataSetter }) => {
     return (
       <>
         <form action="" onSubmit={(e) => taskAdder(e)}>
-          <input type="text" value={data} onInput={dataSetter} />
+          <input type="text" value={data} onChange={dataSetter} />
           <button>add task</button>
         </form>
       </>
