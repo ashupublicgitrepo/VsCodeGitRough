@@ -25,6 +25,9 @@ const App = () => {
         }, 1000);
       });
   }
+  function wait() {
+    return new Promise(res => setTimeout(() => res(), 1000));
+  }
   function stateUpdater(newState) {
     setState(pr => ({
       ...pr,
@@ -42,6 +45,7 @@ const App = () => {
       catch (err) {
         stateUpdater({ msgOnUI:"_uploadFailed" });
       } finally {
+        await wait();
         stateUpdater({ phase: "_idle", action: null });
       }
   }
@@ -81,6 +85,7 @@ const App = () => {
       stateUpdater({ msgOnUI: "_countUpdateFailed" });
     }
     finally {
+      await wait();
       stateUpdater({ phase: "_idle", action: null });
     }
     }
